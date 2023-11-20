@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  mariadb:
+    container_name: mariadb_slow_query
+    image: mariadb:10.7.8
+    mem_limit: 512MB
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./:/app
+    ports:
+      - 3306:3306
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 1

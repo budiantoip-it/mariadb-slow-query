@@ -1,0 +1,97 @@
+-- Example of schema 
+-- The schema does not include any indexes ( except PK's )
+
+-- Users
+CREATE TABLE users (
+	Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	AccountId INTEGER,
+	Reputation INTEGER NOT NULL,
+	Views INTEGER DEFAULT 0,
+	DownVotes INTEGER DEFAULT 0,
+	UpVotes INTEGER DEFAULT 0,
+	DisplayName VARCHAR(255) NOT NULL,
+	Location VARCHAR(512),
+	WebsiteUrl VARCHAR(255),
+	AboutMe MEDIUMTEXT,
+	CreationDate TIMESTAMP(3) NOT NULL,
+	LastAccessDate TIMESTAMP(3) NOT NULL
+);
+
+-- Posts
+CREATE TABLE posts (
+	Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	OwnerUserId INTEGER,
+	LastEditorUserId INTEGER,
+	PostTypeId SMALLINT NOT NULL,
+	AcceptedAnswerId INTEGER,
+	Score INTEGER NOT NULL,
+	ViewCount INTEGER,
+	AnswerCount INTEGER DEFAULT 0,
+	CommentCount INTEGER DEFAULT 0,
+	Title VARCHAR(512),
+	Tags VARCHAR(512),
+	ContentLicense VARCHAR(64) NOT NULL,
+	Body MEDIUMTEXT,
+	CreationDate TIMESTAMP(3) NOT NULL,
+	LastEditDate TIMESTAMP(3),
+	LastActivityDate TIMESTAMP(3)
+);
+
+-- PostLinks
+CREATE TABLE post_links (
+	Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	RelatedPostId INTEGER NOT NULL,
+	PostId INTEGER NOT NULL,
+	LinkTypeId TINYINT NOT NULL,
+	CreationDate TIMESTAMP(3) NOT NULL
+);
+
+-- PostHistory
+CREATE TABLE post_history (
+	Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	PostId INTEGER NOT NULL,
+	UserId INTEGER,
+	PostHistoryTypeId TINYINT NOT NULL,
+	ContentLicense VARCHAR(64),
+	RevisionGUID uuid,
+	Text MEDIUMTEXT,
+	CreationDate TIMESTAMP(3) NOT NULL
+);
+
+-- Comments
+CREATE TABLE comments (
+	Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	PostId INTEGER NOT NULL,
+	UserId INTEGER,
+	Score TINYINT NOT NULL,
+	ContentLicense VARCHAR(64) NOT NULL,
+	Text MEDIUMTEXT,
+	CreationDate TIMESTAMP(3) NOT NULL
+);
+
+-- Votes
+CREATE TABLE votes (
+	Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	PostId INTEGER NOT NULL,
+	VoteTypeId TINYINT NOT NULL,
+	CreationDate TIMESTAMP(3) NOT NULL
+);
+
+-- Badges
+CREATE TABLE badges (
+	Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	UserId INTEGER NOT NULL,
+	Class TINYINT NOT NULL,
+	Name VARCHAR(64) NOT NULL,
+	TagBased TINYINT(1) NOT NULL,
+	Date TIMESTAMP(3) NOT NULL
+);
+
+-- Tags
+CREATE TABLE tags (
+	Id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	ExcerptPostId INTEGER,
+	WikiPostId INTEGER,
+	TagName VARCHAR(255) NOT NULL,
+	Count INTEGER DEFAULT 0
+);
